@@ -1,20 +1,20 @@
-# rpi-init-github
+# rpi-init-GitHub
 
 
  ## Goal
  
- This tool is created to provide easy access to the git repos of the Dutch Rescue Team on Github from the Raspberry Pi for the team members who already have access to these repos from their Windows computer.
+ This tool is created to provide easy access to the git repos of the Dutch Rescue Team on GitHub from the Raspberry Pi for the team members who already have access to these repos from their Windows computer.
 
 ## Concept
 
 ### User experience
-For each sdcard used for the operating system in the Raspberry Pi a ssh-key will be generated for access to Github.
-Setting up the access to Github on the Raspberry Pi will be done from the Windows development workstation.
-The rpi-init-github.ps1 PowerShell script takes care of this using the local git and GitHub settings.
+For each SD card used for the operating system in the Raspberry Pi an ssh-key will be generated for access to GitHub.
+Setting up the access to GitHub on the Raspberry Pi will be done from the Windows development workstation.
+The rpi-init-GitHub.ps1 PowerShell script takes care of this using the local git and GitHub settings.
 
 ### Entry criteria
 * A developer using Windows to develop for the Dutch Rescue Team.
-* This developer has already access to the Dutch Rescue Team git repos on Github.
+* This developer has already access to the Dutch Rescue Team git repos on GitHub.
 
 ## Prepare Windows development workstation
 
@@ -26,18 +26,18 @@ The rpi-init-github.ps1 PowerShell script takes care of this using the local git
 | Enable the OpenSSH Client optional service. | 
 | Check that Windows included OpenSSH is used. (Expected: C:\Windows\System32\OpenSSH\ssh.exe) | Get-Command ssh
 | Install and configure SSH-Agent service. | Get-Service ssh-agent \| Set-Service -StartupType Automatic -PassThru \| Start-Service
-| Generate SSH Key Pair. | ssh-keygen -t ed25519 -C "iwan@e1nice.com @github from e1win2105 230810" -f $HOME/.ssh/iwan@e1nice.com@github__e1win2105__230810_id
-| Get the public key. | cat $HOME/.ssh/iwan@e1nice.com@github__e1win2105__230810_id.pub
-| Add the public key to your GitHub account as a new SSH Key for authentication. | https://github.com/settings/keys
-| Test connection with GitHub using ssh. | ssh -i $HOME/.ssh/iwan@e1nice.com@github__e1win2105__230810_id -T git@github.com
-| Allow using key without password, by storing the key in the SSH Agent. | ssh-add $HOME/.ssh/iwan@e1nice.com@github__e1win2105__230810_id
-| <p>Allow connecting using 'ssh drt@drtbot' by adding something like this to $HOME/.ssh/config. <br>NOTE: Because we often refresh our sdcards with the latest DRT image, the ECDSA host key often changes causing ssh to reject the connection by default until this host key is added to known_hosts. In this example the option has been chosen to reduce security by setting 'StrictHostKeyChecking no' to ease usage.</p> | <p># Used to login to bash as drt on drt* <br>Host drt* <br>&nbsp;&nbsp;&nbsp;&nbsp;StrictHostKeyChecking no <br>&nbsp;&nbsp;&nbsp;&nbsp;User drt <br>&nbsp;&nbsp;&nbsp;&nbsp;IdentityFile ~/.ssh/drt@drtbot__iwan_230722_rsa_id <br> <br># Overall defaults <br>Host * <br>&nbsp;&nbsp;&nbsp;&nbsp;AddKeysToAgent yes <br>&nbsp;&nbsp;&nbsp;&nbsp;IdentitiesOnly yes <br>&nbsp;&nbsp;&nbsp;&nbsp;Protocol 2 <br>&nbsp;&nbsp;&nbsp;&nbsp;Port 22 <br></p>
-| Download and install the latest version of GitHub CLI. | https://cli.github.com/
+| Generate SSH Key Pair. | ssh-keygen -t ed25519 -C "your@mailaddress.tech @GitHub from pcname 230810" -f $HOME/.ssh/your@mailaddress.tech@GitHub__pcname__230810_id
+| Get the public key. | cat $HOME/.ssh/your@mailaddress.tech@GitHub__pcname__230810_id.pub
+| Add the public key to your GitHub account as a new SSH Key for authentication. | https://GitHub.com/settings/keys
+| Test connection with GitHub using ssh. | ssh -i $HOME/.ssh/your@mailaddress.tech@GitHub__pcname__230810_id -T git@GitHub.com
+| Allow using key without password, by storing the key in the SSH Agent. | ssh-add $HOME/.ssh/your@mailaddress.tech@GitHub__pcname__230810_id
+| <p>Allow connecting using 'ssh drt@drtbot' by adding something like this to $HOME/.ssh/config. <br>NOTE: Because we often refresh our SD cards with the latest DRT image, the ECDSA host key often changes causing ssh to reject the connection by default until this host key is added to known_hosts. In this example the option has been chosen to reduce security by setting 'StrictHostKeyChecking no' to ease usage.</p> | <p># Used to login to bash as drt on drt* <br>Host drt* <br>&nbsp;&nbsp;&nbsp;&nbsp;StrictHostKeyChecking no <br>&nbsp;&nbsp;&nbsp;&nbsp;User drt <br>&nbsp;&nbsp;&nbsp;&nbsp;IdentityFile ~/.ssh/drt@drtbot__yourname_230722_rsa_id <br> <br># Overall defaults <br>Host * <br>&nbsp;&nbsp;&nbsp;&nbsp;AddKeysToAgent yes <br>&nbsp;&nbsp;&nbsp;&nbsp;IdentitiesOnly yes <br>&nbsp;&nbsp;&nbsp;&nbsp;Protocol 2 <br>&nbsp;&nbsp;&nbsp;&nbsp;Port 22 <br></p>
+| Download and install the latest version of GitHub CLI. | https://cli.GitHub.com/
 | <p>Allow using GitHub CLI passwordless, by authorizing as Authorized OAuth App with GitHub, by:<br><ul><li>executing the command, </li><li>skipping uploading your public key because you've done that already </li><li>and further follow instructions.</li></ul></p> | gh auth login --hostname GitHub.com --git-protocol ssh --web --scopes admin:public_key
 
 ## Prepare Raspberry Pi
 
-* The sdcard images used by the Dutch Rescue Team come with this preparation done.
+* The SD card images used by the Dutch Rescue Team come with this preparation done.
 
 | Action | Command
 | --- | --- 
@@ -46,7 +46,7 @@ The rpi-init-github.ps1 PowerShell script takes care of this using the local git
 
 ## Usage
 ```powershell
-rpi-init-github.ps1 [-RpiSshUserAtHost] <string> [[-GitHubOwnerSlashRepo] <string>] [-NoPassphrase]
+rpi-init-GitHub.ps1 [-RpiSshUserAtHost] <string> [[-GitHubOwnerSlashRepo] <string>] [-NoPassphrase]
 ```
 
 | Parameter | Function
